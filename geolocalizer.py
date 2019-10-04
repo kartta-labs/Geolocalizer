@@ -77,6 +77,7 @@ class Geolocalizer(object):
     return addressess
 
   def _analyze_entities(self, text):
+    """Analyzez the text and derives insights from it, such as addresses and locations"""
     document = language.types.Document(content=text,type=language.enums.Document.Type.PLAIN_TEXT)
     response = self.nlp_client.analyze_entities(document=document, encoding_type='UTF32')
     addresses = ''
