@@ -1,4 +1,4 @@
-This repository contains a the source code for a tool to geolocalize a raster map.
+This repository contains the source code for a tool to geolocalize a raster map.
 
 This code uses Google Vision API to detect the text in a raster map. Then, it
 sends the textual results to Google Geocoding API to guess where the map belongs to.
