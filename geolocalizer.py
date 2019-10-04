@@ -20,7 +20,10 @@ sends the results to Google Geocoding API to guess where the map belongs to.
 import re
 import googlemaps
 
+from google.cloud import language
 from google.cloud import vision
+from google.cloud.language import enums
+from google.cloud.language import types
 
 
 class Geolocalizer(object):
@@ -32,6 +35,7 @@ class Geolocalizer(object):
       raise ValueError('A Google Maps Geocoding API key is required.')
     self.gmaps = googlemaps.Client(key=api_key)
     self.vision_client = vision.ImageAnnotatorClient()
+    self.nlp_client = language.LanguageServiceClient()
 
   def _detect_texts(self, uri):
     """Detects text in the file given by a uri."""
@@ -69,7 +73,17 @@ class Geolocalizer(object):
     words = re.sub('[^0-9A-Za-z]+', ' ', words)
     if not words:
       return None
-    return words
+    addressess = self._analyze_entities(words)
+    return addressess
+
+  def _analyze_entities(self, text):
+    document = language.types.Document(content=text,type=language.enums.Document.Type.PLAIN_TEXT)
+    response = self.nlp_client.analyze_entities(document=document, encoding_type='UTF32')
+    addresses = ''
+    for entity in response.entities:
+      if entity.type == enums.Entity.Type.ADDRESS or entity.type == enums.Entity.Type.LOCATION:
+        addresses += entity.name + ' '
+    return addresses
 
   def _geocode(self, text):
     """Returns the candidate geolocation for a textual query."""
