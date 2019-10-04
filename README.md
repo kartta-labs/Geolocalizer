@@ -1,7 +1,8 @@
 This repository contains the source code for a tool to geolocalize a raster map.
 
 This code uses Google Vision API to detect the text in a raster map. Then, it
-sends the textual results to Google Geocoding API to guess where the map belongs to.
+sends the textual results to Google NLP API to identify addresses and locations.
+These entities are then sent to Google Geocoding API to guess where the map belongs to.
 
 ## How to use
 This code needs access to Google Cloud tools such as the Vision and Geocoding API's.
