@@ -1,5 +1,3 @@
-# change test
 googlemaps
 google-cloud-vision
-ipython
-opencv-python
+google-cloud-language
