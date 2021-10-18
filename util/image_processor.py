@@ -1,7 +1,30 @@
+# Copyright 2021 The Kartta Labs Authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 """Image processing module for OCR.
 
-This module contains the necessary functions to process Image files of
-arbitrary sizes before sending to the Vision API.
+This module contains the necessary functions to process Image files of arbitrary
+sizes before sending to the Vision API. It uses Google Vision API to detect the
+text in a raster map, and send the textual results to the NLP API to identify
+addresses and locations. The resulting entities are then consumed by the Google
+Geocoding API to determine where the map is from.
+
+The Vision API has a limit of 20 MB file size, and some of the maps reach up to
+300 MB in size, causing requests timeouts. This module is a starting point to
+optimize for this problem using recursion. The main function  takes in the image
+and divide it into two parts each time, once horizontally and once vertically
+until the 20 MB size limit is reached.
 """
 from __future__ import division
 from __future__ import print_function
