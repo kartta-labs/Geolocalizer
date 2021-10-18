@@ -14,17 +14,11 @@
 
 """Image processing module for OCR.
 
-This module contains the necessary functions to process Image files of arbitrary
-sizes before sending to the Vision API. It uses Google Vision API to detect the
-text in a raster map, and send the textual results to the NLP API to identify
-addresses and locations. The resulting entities are then consumed by the Google
-Geocoding API to determine where the map is from.
-
-The Vision API has a limit of 20 MB file size, and some of the maps reach up to
-300 MB in size, causing requests timeouts. This module is a starting point to
-optimize for this problem using recursion. The main function  takes in the image
-and divide it into two parts each time, once horizontally and once vertically
-until the 20 MB size limit is reached.
+This module enables the caller to send arbitrary sized images to the Vision API.
+The Vision API has a limit of 20 MB file size. This module takes in a large
+image and divides it into two parts each time, once horizontally and once
+vertically until the 20 MB size limit is reached. Then it sends the image
+patches to the Vision API.
 """
 from __future__ import division
 from __future__ import print_function
